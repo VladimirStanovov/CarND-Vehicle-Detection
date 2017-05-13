@@ -100,8 +100,6 @@ AvgHeat = AvgHeat*0.6 + heatmap*0.4.
 This procedure is simple, allows smooth detection of vehicles, helps avoiding false positives, and easy tracking of each vehicle position.
 Then I thresholded that the smoothed heat map to identify vehicle positions, the threshold parameter was set to 0.5.  I then used `scipy.ndimage.measurements.label()` to identify individual blobs in the heatmap.  I then assumed each blob corresponded to a vehicle.  I constructed bounding boxes to cover the area of each blob detected.  
 
-Here's an example result showing the heatmap from a series of frames of video, the result of `scipy.ndimage.measurements.label()` and the bounding boxes then overlaid on the last frame of video:
-
 ### Here are six frames and their corresponding heatmaps:
 
 ![alt text][image5] ![alt text][image6]
