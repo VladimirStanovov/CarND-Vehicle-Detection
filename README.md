@@ -46,36 +46,43 @@ The code for this step is contained in the second code cell of the IPython noteb
 
 I started by reading in all the `vehicle` and `non-vehicle` images.  Here is an example of one of each of the `vehicle` and `non-vehicle` classes:
 
-![alt text][image1]
+![alt text][image22]
+![alt text][image23]
 
 I then explored different color spaces and different `skimage.hog()` parameters (`orientations`, `pixels_per_cell`, and `cells_per_block`).  I grabbed random images from each of the two classes and displayed them to get a feel for what the `skimage.hog()` output looks like.
 
 Here is an example using the `YCrCb` color space and HOG parameters of `orientations=8`, `pixels_per_cell=(8, 8)` and `cells_per_block=(2, 2)`:
 
-
+![alt text][image1]
 ![alt text][image2]
 
-####2. Explain how you settled on your final choice of HOG parameters.
 
-I tried various combinations of parameters and...
+####2. Setting the final choice of HOG parameters.
 
-####3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).
+I tried various combinations of parameters, for color space types, best choises appeared to be YUV and YCrCb, I ended up using YCrCb as it delivered better classification quality. I've also tried to change the number of pixels per cell, which directly influences the amount of features in the feature vector, but `pixels_per_cell=(8, 8)` looks like a good tradeof between speed and quality. I also used all three HOG channels, and although the Y channel is most informative, the Cr and Cb still contain important color information. Changing the spatial features size, as well as number histogram bins does not change classification quality significantly. The resulting feature vector length is 6108.
 
-I trained a linear SVM using...
+####3. Training a classifier using selected features.
+
+I trained a nonlinear SVM with rbf kernel, as linear SVM returned too much false positives on test images and videos. Other types of SVM kernels (polynomial, sigmoid, etc.) have similar quality to linear SVM, however take much more time to train and apply. For a linear SVM the typical test sample quality is around 0.985-0.987, while SVM with rbf kernel can achieve 0.994-0.996, which is a significant difference. However, the rbf kernel takes much more time to compute.
 
 ###Sliding Window Search
 
-####1. Describe how (and identify where in your code) you implemented a sliding window search.  How did you decide what scales to search and how much to overlap windows?
+####1. Implementing a sliding window.
 
-I decided to search random window positions at random scales all over the image and came up with this (ok just kidding I didn't actually ;):
+First of all, to implement sliding window, I used several scales: 1.4, 1.5 and 1.6 to get more robust detection in case of too many false positives or cars being too far or too close. Next, in the find_cars function in cell 10, I cut the are of interest, i.e. from 380 to 572 on vertical axis. This step is important for computation time reduction, we don't want to look for cars on the sky (usually there are none of them over there). Next, I extracted HOG features for the whole area of intetest, to be able to reuse these values during window sliding. The sliding itself had the overlap equal to 2 HOG blocks. using 1 HOG block for every step is also possible, but it results in increase of computation time. The overlap of 1 looked like a good option for me when I tried to use linear SVM, i.e. it resulted in more detections of the same vehicle, but too many false positives did not make it possible to get a good soultion even with large thresholds on heatmaps.
 
 ![alt text][image3]
 
-####2. Show some examples of test images to demonstrate how your pipeline is working.  What did you do to optimize the performance of your classifier?
+####2. Some examples of test images to demonstrate how the pipeline is working.
 
 Ultimately I searched on two scales using YCrCb 3-channel HOG features plus spatially binned color and histograms of color in the feature vector, which provided a nice result.  Here are some example images:
 
 ![alt text][image4]
+![alt text][image7]
+![alt text][image10]
+![alt text][image13]
+![alt text][image16]
+![alt text][image19]
 ---
 
 ### Video Implementation
