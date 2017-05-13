@@ -111,7 +111,8 @@ Here's an example result showing the heatmap from a series of frames of video, t
 ![alt text][image17] ![alt text][image18]
 ![alt text][image20] ![alt text][image21]
 
-###Combining project 4 and project 5 outputs
+####Combining project 4 and project 5 outputs.
+
 I've also combined advanced lane detection with vehicle detection in the next video:
 Here's a [link to my video result](./final_processed_project_video2.mp4)
 
