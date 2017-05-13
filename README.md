@@ -34,6 +34,7 @@ The goals / steps of this project are the following:
 [image22]: ./output_images/CarImage.jpg
 [image23]: ./output_images/NonCarImage.jpg
 [video1]: ./final_processed_project_video.mp4
+[video2]: ./final_processed_project_video2.mp4
 
 ---
 ###Writeup / README
@@ -88,7 +89,7 @@ Ultimately I searched on two scales using YCrCb 3-channel HOG features plus spat
 ### Video Implementation
 
 ####1. Link to final video output.  
-Here's a [link to my video result](./project_video.mp4)
+Here's a [link to my video result](./final_processed_project_video.mp4)
 
 ####2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
 
@@ -110,11 +111,17 @@ Here's an example result showing the heatmap from a series of frames of video, t
 ![alt text][image17] ![alt text][image18]
 ![alt text][image20] ![alt text][image21]
 
+###Combining project 4 and project 5 outputs
+I've also combined advanced lane detection with vehicle detection in the next video:
+Here's a [link to my video result](./final_processed_project_video2.mp4)
+
 ---
 
 ###Discussion
 
-####1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
+####1. Brief discussion of problems in the detection pipeline.
 
-Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
-
+Of course, the main problem here is to train an accurate classifier, i.e. the one that does not result in too much false positives. In this project I tried to work with standard linear SVM, as well as Random Forest,  Gradient Boosting, AdaBoost and Bagging of SVMs or Random Forests. None of these approaches were as good as the SVM with rbf kernel, which I ended up using in final submition.
+One thing that could be done to improve classification results is data augmentation, similar to the one used in traffic signs classification project. Random shifting, scaling, flipping of images, as well as adding shadows/color tweaking is the first thing to do for augmentation. Although this will increase trainig time, detection time won't be incluenced, and maybe even the linear SVM could be used for detection, which is much faster.
+Another thing is the combination of lane finding and vehicle detection - to look for vehicles on the lanes. However, this won't always work.
+As for the sliding windows, heatmaps and so on, this part seems quite robust to me, we may think of some modifications to save computation time (i.e. limit search area even more), but I don't think this will significantly affect the detection itself.
