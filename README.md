@@ -126,3 +126,6 @@ Of course, the main problem here is to train an accurate classifier, i.e. the on
 One thing that could be done to improve classification results is data augmentation, similar to the one used in traffic signs classification project. Random shifting, scaling, flipping of images, as well as adding shadows/color tweaking is the first thing to do for augmentation. Although this will increase trainig time, detection time won't be incluenced, and maybe even the linear SVM could be used for detection, which is much faster.
 Another thing is the combination of lane finding and vehicle detection - to look for vehicles on the lanes. However, this won't always work.
 As for the sliding windows, heatmaps and so on, this part seems quite robust to me, we may think of some modifications to save computation time (i.e. limit search area even more), but I don't think this will significantly affect the detection itself.
+
+
+P.S. I will update this repository with a project video received when using the sliding window step size equal to 1, which is 4 times slower to compute, but should result in a really nice detection.
